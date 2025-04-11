@@ -1,0 +1,21 @@
+#include<stdio.h>
+int main(){
+    float pi=3.1415;
+    float r,area,hieght,c;
+    
+    printf("enter radius: ");
+    scanf("%f",&r);
+    
+    printf("enter hieght: ");
+    scanf("%f",&hieght);
+    
+    c = 2*pi*r;
+    area = pi*r*r;
+    hieght = pi*r*r*hieght;
+    
+    printf("area= %.4f\n",area);
+    printf("hiehgt= %.4f\n",hieght);
+    printf("circumference= %.4f\n",c);
+    
+	return 0;
+}
