@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <string.h>
+
+
+void compressWord(char *word, char *compressedWord, int *removedChars) {
+    int i = 0, j = 0;
+    *removedChars = 0;
+    int len = strlen(word);
+
+    while (i < len) {
+        compressedWord[j++] = word[i];
+        
+        
+        while (i + 1 < len && word[i] == word[i + 1]) {
+            i++;
+            (*removedChars)++;
+        }
+        
+        i++;
+    }
+    compressedWord[j] = '\0';  
+}
+
+
+void compressWords(char words[][20], int numWords, char compressedWords[][20], int *totalRemoved) {
+    *totalRemoved = 0;
+
+    for (int i = 0; i < numWords; i++) {
+        int removedChars;
+        compressWord(words[i], compressedWords[i], &removedChars);
+        *totalRemoved += removedChars;
+    }
+}
+
+int main() {
+    char words[3][20] = {"booooook", "coooool", "heeeey"};
+    char compressedWords[3][20];
+    int totalRemoved;
+
+    compressWords(words, 3, compressedWords, &totalRemoved);
+
+    printf("Compressed Words:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("%s\n", compressedWords[i]);
+    }
+    printf("Total Characters Removed: %d\n", totalRemoved);
+
+    return 0;
+}
