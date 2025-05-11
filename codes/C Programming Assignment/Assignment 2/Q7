@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+#define NUM_USERS 5
+#define NUM_CATEGORIES 4
+#define NUM_DEVICES 3
+#define NUM_CONTENT 6
+int i,j,k;
+ 
+typedef struct {
+    char name[100];
+    float score;
+    int duration;
+    char format[50];
+} MediaContent;
+ 
+void initializeUserScores(double ***matrix, int users, int categories) {
+    
+	*matrix = (double **)malloc(users * sizeof(double *));
+    for ( i = 0; i < users; i++) {
+        (*matrix)[i] = (double *)malloc(categories * sizeof(double));
+        for ( j = 0; j < categories; j++) {
+            (*matrix)[i][j] = 0.0;
+        }
+    }
+}
+ 
+void initializeDeviceSettings(double ***matrix, int users, int devices) {
+    *matrix = (double **)malloc(users * sizeof(double *));
+    for ( i = 0; i < users; i++) {
+        (*matrix)[i] = (double *)malloc(devices * sizeof(double));
+        for ( j = 0; j < devices; j++) {
+            (*matrix)[i][j] = 0.0;
+        }
+    }
+}
+ 
+void initializeMediaData(MediaContent ***matrix, int categories, int content) {
+    *matrix = (MediaContent **)malloc(categories * sizeof(MediaContent *));
+    for ( i = 0; i < categories; i++) {
+        (*matrix)[i] = (MediaContent *)malloc(content * sizeof(MediaContent));
+        for ( j = 0; j < content; j++) {
+            sprintf((*matrix)[i][j].name, "Media %d", j + 1);
+            (*matrix)[i][j].score = (float)((j + 1) * 2.0);
+            (*matrix)[i][j].duration = 120 + j * 10;
+            sprintf((*matrix)[i][j].format, "Format %d", j + 1);
+        }
+    }
+}
+ 
+void updateUserScore(double **matrix, int userIndex, int categoryIndex, double score) {
+    matrix[userIndex][categoryIndex] = score;
+}
+ 
+void updateDevicePreference(double **matrix, int userIndex, int deviceIndex, double preference) {
+    matrix[userIndex][deviceIndex] = preference;
+}
+ 
+void displayUserDetails(double **userMatrix, double **deviceMatrix, MediaContent **mediaMatrix, int totalUsers, int totalCategories, int totalDevices, int totalContent) {
+    for ( i = 0; i < totalUsers; i++) {
+        printf("User %d Profile:\n", i + 1);
+        for ( j = 0; j < totalCategories; j++) {
+            printf("  Category %d Engagement: %.2f\n", j + 1, userMatrix[i][j]);
+            for ( k = 0; k < totalContent; k++) {
+                printf("    Media %d: %s | Rating: %.1f | Duration: %d mins | Format: %s\n", k + 1, mediaMatrix[j][k].name, mediaMatrix[j][k].score, mediaMatrix[j][k].duration, mediaMatrix[j][k].format);
+            }
+        }
+        for ( j = 0; j < totalDevices; j++) {
+            printf("  Device %d Setting: %.2f\n", j + 1, deviceMatrix[i][j]);
+        }
+    }
+}
+ 
+int main() {
+    double **userEngagementMatrix;
+    double **userDeviceSettingsMatrix;
+    MediaContent **mediaContentMatrix;
+ 
+    initializeUserScores(&userEngagementMatrix, NUM_USERS, NUM_CATEGORIES);
+    initializeDeviceSettings(&userDeviceSettingsMatrix, NUM_USERS, NUM_DEVICES);
+    initializeMediaData(&mediaContentMatrix, NUM_CATEGORIES, NUM_CONTENT);
+ 
+    updateUserScore(userEngagementMatrix, 0, 1, 8.5);
+    updateDevicePreference(userDeviceSettingsMatrix, 0, 0, 9.0);
+ 
+    displayUserDetails(userEngagementMatrix, userDeviceSettingsMatrix, mediaContentMatrix, NUM_USERS, NUM_CATEGORIES, NUM_DEVICES, NUM_CONTENT);
+ 
+    for ( i = 0; i < NUM_USERS; i++) {
+        free(userEngagementMatrix[i]);
+        free(userDeviceSettingsMatrix[i]);
+    }
+    free(userEngagementMatrix);
+    free(userDeviceSettingsMatrix);
+ 
+    for (i = 0; i < NUM_CATEGORIES; i++) {
+        free(mediaContentMatrix[i]);
+    }
+    free(mediaContentMatrix);
+ 
+    return 0;
+}
+
