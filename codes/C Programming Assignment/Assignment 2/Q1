@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+ 
+
+ 
+typedef struct {
+    int id;
+    char name[50];
+    int joiningDate[3]; // Format: [DD, MM, YYYY]
+} Person;
+ 
+void inputPersonDetails(Person people[], int index) {
+    printf("Enter the ID for the person: ");
+    scanf("%d", &people[index].id);
+    printf("Enter the name of the person: ");
+    getchar();
+    fgets(people[index].name, 50, stdin);
+    people[index].name[strcspn(people[index].name, "\n")] = 0;
+    printf("Enter the joining date (DD MM YYYY): ");
+    scanf("%d %d %d", &people[index].joiningDate[0], &people[index].joiningDate[1], &people[index].joiningDate[2]);
+}
+ 
+int calculateTenure(int joiningDate[3], int currentDate[3]) {
+    int tenure = currentDate[2] - joiningDate[2];
+    if (currentDate[1] < joiningDate[1] || (currentDate[1] == joiningDate[1] && currentDate[0] < joiningDate[0])) {
+        tenure--;
+    }
+    return tenure;
+}
+ 
+void displayPeopleWithTenure(Person people[], int numPeople, int currentDate[3]) {
+    int i,count = 0;
+    for ( i = 0; i < numPeople; i++) {
+        int tenure = calculateTenure(people[i].joiningDate, currentDate);
+        if (tenure > 3) {
+            printf("\nPerson ID: %d\n", people[i].id);
+            printf("Person Name: %s\n", people[i].name);
+            printf("Date of Joining: %02d-%02d-%04d\n", people[i].joiningDate[0], people[i].joiningDate[1], people[i].joiningDate[2]);
+            printf("Tenure: %d years\n", tenure);
+            count++;
+        }
+    }
+    printf("\nTotal number of people with a tenure greater than 3 years: %d\n", count);
+}
+ 
+int main() {
+    Person people[4];
+    int i,currentDate[3];
+    
+    for ( i = 0; i < 4; i++) {
+        inputPersonDetails(people, i);
+    }
+ 
+    printf("Enter the current date (DD MM YYYY): ");
+    scanf("%d %d %d", &currentDate[0], &currentDate[1], &currentDate[2]);
+ 
+    displayPeopleWithTenure(people, 4, currentDate);
+ 
+    return 0;
+}
+
