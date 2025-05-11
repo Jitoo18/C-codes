@@ -1,0 +1,93 @@
+#include<stdio.h>
+
+
+struct Player{
+	int ball_scores[12];
+	char player_name1[20];
+	char player_name2[20];
+	int totalscore;
+	
+};
+
+
+
+int playgame(struct Player *player1,struct Player *player2){
+	int i;
+	for(i=0;i<12;i++){
+		printf("Please enter score for player 1 for ball %d\n",i+1);
+		scanf("%d", &player1->ball_scores[i]);
+
+		
+			printf("Please enter score for player 2 for ball %d\n",i+1);
+		scanf("%d", &player2->ball_scores[i]);
+		
+	}
+}
+
+int Valid(struct Player *p1,struct Player *p2){
+	int i;
+	for (i=0;i<12;i++){
+		if (p1->ball_scores[i]<0 || p1->ball_scores[i]>6 ){
+
+			p1->ball_scores[i]=0;
+	
+		}
+		p1->totalscore=p1->totalscore+p1->ball_scores[i];
+			if (p2->ball_scores[i]<0 || p2->ball_scores[i]>6 ){
+
+			p2->ball_scores[i]=0;
+	
+		}
+			p2->totalscore = p2->totalscore+p2->ball_scores[i];
+	}
+	
+}
+
+int Winner(struct Player *p1, struct Player *p2){
+	if (p1->totalscore> p2->totalscore){
+		printf("Winner is player 1\n");
+		
+	}
+	else if (p1->totalscore<p2->totalscore) {
+		printf("\nWinner is player 2\n");
+	}
+	else {
+		printf("Scores are equal no one won \n");
+	}
+}
+
+void displaymatchscoreboard(struct Player *player1,struct Player *player2){
+	int player1avg=(player1->totalscore)/12;
+	int player2avg=(player2->totalscore)/12;
+	int i;
+	printf("----------performance of player--------\n");
+	for (i=0;i<12;i++){
+		printf(" Score for player 1 %d for ball %d\n",player1->ball_scores[i] ,i+1);
+			printf(" Score for player 2 %d for ball %d\n",player2->ball_scores[i] ,i+1);
+	}
+	printf("The average score for player 1 is   %d\n", player1avg);
+	printf("The average score for player 2 is   %d\n", player2avg);
+	printf("The total score for player 1 is   %d\n", player1->totalscore);
+	printf("The total score for player 2 is   %d\n", player2->totalscore);
+	
+}
+
+	
+	
+	
+int main()
+{
+	struct Player player1={0};
+	struct Player player2={0};
+	playgame(&player1,&player2);
+	Valid(&player1,&player2);
+	Winner(&player1, &player2);
+	displaymatchscoreboard(&player1,&player2);
+	
+}
+
+
+
+
+
+
