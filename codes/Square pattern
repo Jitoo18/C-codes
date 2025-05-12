@@ -1,0 +1,15 @@
+#include<stdio.h>
+int main(){
+	
+	int n;
+	printf("enter value of n: ");
+	scanf("%d", &n);
+	
+	for(int i = 1; i<=n; i++){ // first loop for rows
+		for(int j= 1; j<=n; j++){ // seccond loop for columns
+			printf("%d ", j);
+		}
+		printf("\n");
+	}
+	return 0;
+}
