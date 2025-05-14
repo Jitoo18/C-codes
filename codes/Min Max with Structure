@@ -1,0 +1,50 @@
+#include <stdio.h>
+
+// Define a structure to hold both max and min values
+struct MaxMin {
+    int max;
+    int min;
+};
+
+// Function to find the maximum and minimum in an array
+struct MaxMin findMaxMin(int arr[], int size) {
+    struct MaxMin result;
+    result.max = arr[0];
+    result.min = arr[0];
+
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > result.max) {
+            result.max = arr[i];
+        }
+        if (arr[i] < result.min) {
+            result.min = arr[i];
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    int n;
+
+    // Get the size of the array from the user
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    // Get array elements from the user
+    printf("Enter the elements of the array:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Call the function to find the max and min
+    struct MaxMin result = findMaxMin(arr, n);
+
+    // Display the maximum and minimum values
+    printf("Maximum element: %d\n", result.max);
+    printf("Minimum element: %d\n", result.min);
+
+    return 0;
+}
