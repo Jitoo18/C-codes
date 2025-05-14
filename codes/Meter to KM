@@ -1,0 +1,29 @@
+#include<stdio.h>
+#define m_to_km 0.001
+
+float conv_to_km(float meters) {
+	static int count = 0;
+	count++;
+	printf("function called %d times.",count);
+	return meters * m_to_km;
+}
+int main(){
+	float meters;
+	char choice;
+	
+	printf("coverting meter to kilometer\n");
+	printf("conversion factor: 1 meter = %.3f kilometers\n",m_to_km);
+	
+	do{
+		printf("\nenter meters: ");
+		scanf("%f",&meters);
+		
+		float kilometers = conv_to_km(meters);
+		printf("%.2f meters is equal to %.3f kilometers.\n",meters,kilometers);
+		
+		printf("do you want to convert another distance ? (y/n): ");
+		scanf(" %c",&choice);
+	} while(choice == 'y' || choice == 'Y');
+	printf("\nprogram terminated.\n");
+	return 0;
+}
