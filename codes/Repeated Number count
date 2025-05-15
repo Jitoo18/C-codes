@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int digit(int num, int target) {
+	if (num == 0) {
+		return 0;
+	}
+	if (num % 10 == target) {
+		return 1 + digit(num / 10, target);
+	} else {
+		return digit(num / 10, target);
+	}
+}
+int main() {
+	int num;
+	printf("Enter number: ");
+	scanf("%d",&num);
+	int target;
+	printf("Enter target: ");
+	scanf("%d",&target);
+
+	int count = digit(num, target);
+	printf("In %d -> The digit %d appears: %d times \n",  num,target, count);
+
+	return 0;
+}
